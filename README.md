@@ -7,6 +7,7 @@
 - Transiciones/Animaciones.  
 - Uso de buenas prácticas y escalabilidad.  
 - Pruebas Unitarias.  
+- Arreglar la SplashScreen
 
 ## Preguntas
 
