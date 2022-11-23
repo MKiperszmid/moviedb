@@ -12,6 +12,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.mk.moviedb.R
 import com.mk.moviedb.home.presentation.components.HomeHeader
 import com.mk.moviedb.home.presentation.components.HomeMovieList
+import com.mk.moviedb.home.presentation.components.HomeRecommended
 
 @Composable
 fun HomeScreen(
@@ -40,6 +41,15 @@ fun HomeScreen(
                     stringResource(R.string.popular_movies),
                     posters = state.popularMovies.map { it.poster }
                 )
+            }
+        }
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        item {
+            HomeRecommended(selectedFilter = state.selectedFilter, onFilterClick = {
+                viewModel.onEvent(HomeEvent.ChangeFilter(it))
+            }, movieList = state.filteredMovies) {
             }
         }
     }
