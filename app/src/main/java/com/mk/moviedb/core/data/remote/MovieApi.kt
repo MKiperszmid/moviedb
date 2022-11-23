@@ -5,6 +5,7 @@ import retrofit2.http.GET
 
 interface MovieApi {
     companion object {
+        const val IMAGE_URL = "https://image.tmdb.org/t/p/original/"
         const val BASE_URL = "https://api.themoviedb.org/3/"
     }
 
