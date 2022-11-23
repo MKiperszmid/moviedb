@@ -2,6 +2,7 @@ package com.mk.moviedb.core.data.remote
 
 import com.mk.moviedb.core.data.remote.dto.MovieDtoResponse
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface MovieApi {
     companion object {
@@ -16,4 +17,10 @@ interface MovieApi {
 
     @GET("movie/popular")
     suspend fun getPopularMovies(): MovieDtoResponse
+
+    @GET("discover/movie?sort_by=popularity.desc&include_adult=false")
+    suspend fun getMoviesByYear(@Query("year") year: Int): MovieDtoResponse
+
+    @GET("discover/movie?sort_by=popularity.desc&include_adult=false")
+    suspend fun getMoviesByLanguage(@Query("with_original_language") language: String): MovieDtoResponse
 }

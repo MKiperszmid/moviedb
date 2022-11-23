@@ -25,7 +25,8 @@ class HomeViewModel @Inject constructor(
             supervisorScope {
                 val upcoming = launch { getUpcomingMovies() }
                 val popular = launch { getPopularMovies() }
-                listOf(upcoming, popular).forEach { it.join() }
+                val filtered = launch { getMoviesByFilter() }
+                listOf(upcoming, popular, filtered).forEach { it.join() }
                 state = state.copy(isLoading = false)
             }
         }
@@ -38,6 +39,9 @@ class HomeViewModel @Inject constructor(
                     state = state.copy(
                         selectedFilter = event.filterType
                     )
+                    viewModelScope.launch {
+                        getMoviesByFilter()
+                    }
                 }
             }
             is HomeEvent.OnMovieClick -> TODO()
@@ -58,6 +62,22 @@ class HomeViewModel @Inject constructor(
         repository.getUpcomingMovies().onSuccess {
             state = state.copy(
                 upcomingMovies = it
+            )
+        }.onFailure {
+            println()
+        }
+    }
+
+    private suspend fun getMoviesByFilter() {
+        // TODO: Fix this for better scalability?
+        val result = when (state.selectedFilter) {
+            FilterType.SPANISH -> repository.getMoviesByLanguage("es")
+            FilterType.NINETY_THREE -> repository.getMoviesByYear(1993)
+        }
+
+        result.onSuccess {
+            state = state.copy(
+                filteredMovies = it
             )
         }.onFailure {
             println()
