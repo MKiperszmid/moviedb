@@ -69,7 +69,6 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getMoviesByFilter() {
-        // TODO: Fix this for better scalability?
         val result = when (state.selectedFilter) {
             FilterType.SPANISH -> repository.getMoviesByLanguage("es")
             FilterType.NINETY_THREE -> repository.getMoviesByYear(1993)
@@ -77,7 +76,7 @@ class HomeViewModel @Inject constructor(
 
         result.onSuccess {
             state = state.copy(
-                filteredMovies = it.subList(0, 6)
+                filteredMovies = it.subList(0, 6) // TODO: Export to a Use Case
             )
         }.onFailure {
             println()
