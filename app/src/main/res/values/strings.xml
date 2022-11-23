@@ -2,4 +2,5 @@
     <string name="app_name">MovieDb</string>
     <string name="upcoming_releases">Proximos Estrenos</string>
     <string name="emovie">eMovie</string>
+    <string name="popular_movies">Tendencia</string>
 </resources>

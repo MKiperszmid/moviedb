@@ -6,6 +6,7 @@ import com.mk.moviedb.core.domain.model.Movie
 
 fun MovieResult.toDomain(): Movie {
     return Movie(
+        id = this.id,
         description = this.overview,
         title = this.title,
         releaseYear = this.releaseDate.substring(0, 4).toInt(),

@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 
 data class MovieDtoResponse(
     @field:Json(name = "dates")
-    val dates: Dates,
+    val dates: Dates?,
     @field:Json(name = "page")
     val page: Int,
     @field:Json(name = "results")

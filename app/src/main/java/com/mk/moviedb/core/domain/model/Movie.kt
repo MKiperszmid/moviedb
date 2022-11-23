@@ -1,6 +1,7 @@
 package com.mk.moviedb.core.domain.model
 
 data class Movie(
+    val id: Int,
     val description: String,
     val title: String,
     val releaseYear: Int,

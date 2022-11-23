@@ -9,6 +9,11 @@ interface MovieApi {
         const val BASE_URL = "https://api.themoviedb.org/3/"
     }
 
-    @GET("movie/upcoming") // TODO: Pagination
+    // TODO: Pagination
+
+    @GET("movie/upcoming")
     suspend fun getUpcomingMovies(): MovieDtoResponse
+
+    @GET("movie/popular")
+    suspend fun getPopularMovies(): MovieDtoResponse
 }

@@ -8,11 +8,12 @@ import androidx.lifecycle.viewModelScope
 import com.mk.moviedb.core.domain.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    val repository: MovieRepository
+    private val repository: MovieRepository
 ) : ViewModel() {
 
     var state by mutableStateOf(HomeState())
@@ -20,19 +21,33 @@ class HomeViewModel @Inject constructor(
 
     init {
         state = state.copy(isLoading = true)
-        getUpcomingMovies()
+        viewModelScope.launch {
+            supervisorScope {
+                val upcoming = launch { getUpcomingMovies() }
+                val popular = launch { getPopularMovies() }
+                listOf(upcoming, popular).forEach { it.join() }
+                state = state.copy(isLoading = false)
+            }
+        }
     }
 
-    private fun getUpcomingMovies() {
-        viewModelScope.launch {
-            repository.getUpcomingMovies().onSuccess {
-                state = state.copy(
-                    upcoming = it
-                )
-            }.onFailure {
-                println()
-            }
-            state = state.copy(isLoading = false)
+    private suspend fun getPopularMovies() {
+        repository.getPopularMovies().onSuccess {
+            state = state.copy(
+                popularMovies = it
+            )
+        }.onFailure {
+            println()
+        }
+    }
+
+    private suspend fun getUpcomingMovies() {
+        repository.getUpcomingMovies().onSuccess {
+            state = state.copy(
+                upcomingMovies = it
+            )
+        }.onFailure {
+            println()
         }
     }
 }
