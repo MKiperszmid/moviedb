@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MovieDb</string>
+    <string name="upcoming_releases">Proximos Estrenos</string>
+    <string name="emovie">eMovie</string>
 </resources>
