@@ -59,12 +59,10 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getUpcomingMovies() {
-        repository.getUpcomingMovies().onSuccess {
+        repository.getUpcomingMovies().collect {
             state = state.copy(
                 upcomingMovies = it
             )
-        }.onFailure {
-            println()
         }
     }
 
