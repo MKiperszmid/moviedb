@@ -1,6 +1,5 @@
 # TODO
 
-- Manejar apartado Recomendados para ti utilizando las películas Tendencia para filtrar por Idioma y Año de lanzamiento (a elección del candidato), se debe mostrar en forma de cuadrícula limitando a solo 6 películas  
 - Visualizar detalle de la película seleccionada  
 - Opción de ver trailer en el detalle (cómo visualizar el trailer queda a elección del candidato).  
 - La app debe poder funcionar offline (cache).  
