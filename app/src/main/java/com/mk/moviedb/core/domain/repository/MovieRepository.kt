@@ -5,5 +5,5 @@ import com.mk.moviedb.core.domain.model.MovieList
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
-    fun getAllMovies(filterType: FilterType): Flow<MovieList>
+    fun getAllMovies(filterType: FilterType, isFilteredOnly: Boolean): Flow<MovieList>
 }

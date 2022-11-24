@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mk.moviedb.core.domain.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import javax.inject.Inject
@@ -24,8 +25,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             supervisorScope {
                 val movies = launch { getAllMovies() }
-                val filtered = launch { getMoviesByFilter() }
-                listOf(movies, filtered).forEach { it.join() }
+                movies.join()
                 state = state.copy(isLoading = false)
             }
         }
@@ -39,7 +39,11 @@ class HomeViewModel @Inject constructor(
                         selectedFilter = event.filterType
                     )
                     viewModelScope.launch {
-                        getMoviesByFilter()
+                        repository.getAllMovies(state.selectedFilter, true).collect {
+                            state = state.copy(
+                                filteredMovies = it.filtered
+                            )
+                        }
                     }
                 }
             }
@@ -48,26 +52,12 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getAllMovies() {
-        repository.getAllMovies(state.selectedFilter).collect {
+        repository.getAllMovies(state.selectedFilter, false).collect {
             state = state.copy(
                 upcomingMovies = it.upcoming,
                 popularMovies = it.trending,
                 filteredMovies = it.filtered
             )
         }
-    }
-
-    private suspend fun getMoviesByFilter() {
-        /*val result = when (state.selectedFilter) {
-            FilterType.SPANISH -> repository.getMoviesByLanguage("es")
-            FilterType.NINETY_THREE -> repository.getMoviesByYear(1993)
-        }
-        result.collect {
-            if (it.isNotEmpty()) {
-                state = state.copy(
-                    filteredMovies = it.subList(0, 6) // TODO: Export to a Use Case
-                )
-            }
-        }*/
     }
 }

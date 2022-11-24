@@ -8,6 +8,7 @@ import com.mk.moviedb.core.data.local.MovieDatabase
 import com.mk.moviedb.core.data.remote.MovieApi
 import com.mk.moviedb.core.data.remote.interceptor.ApiKeyInterceptor
 import com.mk.moviedb.core.domain.repository.MovieRepository
+import com.mk.moviedb.core.domain.usecase.ReduceFilteredMovies
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,6 +54,6 @@ object CoreModule {
         api: MovieApi,
         dao: MovieDao
     ): MovieRepository {
-        return MovieRepositoryImpl(api, dao)
+        return MovieRepositoryImpl(api, dao, ReduceFilteredMovies())
     }
 }
