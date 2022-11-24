@@ -1,4 +1,4 @@
-package com.mk.moviedb.home.presentation
+package com.mk.moviedb.core.domain.model
 
 enum class FilterType(val text: String) {
     SPANISH("En español"),

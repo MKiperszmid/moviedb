@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mk.moviedb.core.domain.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import javax.inject.Inject
@@ -24,10 +23,9 @@ class HomeViewModel @Inject constructor(
         state = state.copy(isLoading = true)
         viewModelScope.launch {
             supervisorScope {
-                val upcoming = launch { getUpcomingMovies() }
-                val popular = launch { getPopularMovies() }
+                val movies = launch { getAllMovies() }
                 val filtered = launch { getMoviesByFilter() }
-                listOf(upcoming, popular, filtered).forEach { it.join() }
+                listOf(movies, filtered).forEach { it.join() }
                 state = state.copy(isLoading = false)
             }
         }
@@ -49,24 +47,18 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getPopularMovies() {
-        repository.getPopularMovies().collect {
+    private suspend fun getAllMovies() {
+        repository.getAllMovies(state.selectedFilter).collect {
             state = state.copy(
-                popularMovies = it
-            )
-        }
-    }
-
-    private suspend fun getUpcomingMovies() {
-        repository.getUpcomingMovies().collect {
-            state = state.copy(
-                upcomingMovies = it
+                upcomingMovies = it.upcoming,
+                popularMovies = it.trending,
+                filteredMovies = it.filtered
             )
         }
     }
 
     private suspend fun getMoviesByFilter() {
-        val result = when (state.selectedFilter) {
+        /*val result = when (state.selectedFilter) {
             FilterType.SPANISH -> repository.getMoviesByLanguage("es")
             FilterType.NINETY_THREE -> repository.getMoviesByYear(1993)
         }
@@ -76,6 +68,6 @@ class HomeViewModel @Inject constructor(
                     filteredMovies = it.subList(0, 6) // TODO: Export to a Use Case
                 )
             }
-        }
+        }*/
     }
 }

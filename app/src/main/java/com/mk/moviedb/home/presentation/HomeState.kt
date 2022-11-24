@@ -1,5 +1,6 @@
 package com.mk.moviedb.home.presentation
 
+import com.mk.moviedb.core.domain.model.FilterType
 import com.mk.moviedb.core.domain.model.Movie
 
 data class HomeState(

@@ -7,7 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mk.moviedb.home.presentation.FilterType
+import com.mk.moviedb.core.domain.model.FilterType
 
 @Composable
 fun FilterPillContainer(
