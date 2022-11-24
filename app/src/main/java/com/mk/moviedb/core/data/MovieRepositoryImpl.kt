@@ -20,6 +20,8 @@ class MovieRepositoryImpl(
     private val dao: MovieDao,
     private val reduceFilteredMovies: ReduceFilteredMovies
 ) : MovieRepository {
+
+    // TODO: We could have 1 method for movies, and 1 for filtered movies
     override fun getAllMovies(filterType: FilterType, isFilteredOnly: Boolean): Flow<MovieList> {
         return flow {
             emit(getMovieListLocally(filterType))
@@ -40,7 +42,7 @@ class MovieRepositoryImpl(
                 }
             }
 
-            // TODO: Use SealedClass or similar to make it dynamic
+            // TODO: Use SealedClass or similar to make it dynamic so we don't have to hardcode "es" and 1993
             getMoviesByLanguageRemotely("es").onSuccess {
                 saveMoviesLocally(it, MovieType.SPANISH)
                 emit(getMovieListLocally(filterType))
@@ -63,13 +65,11 @@ class MovieRepositoryImpl(
 
     private suspend fun getMovieListLocally(filterType: FilterType): MovieList {
         val localMovies = dao.getMovies()
-
         val movieTypeFromFilter = when (filterType) {
             FilterType.SPANISH -> MovieType.SPANISH
             FilterType.NINETY_THREE -> MovieType.NINETY_THREE
         }
 
-        // TODO: Maybe move this to a UseCase or something
         return MovieList(
             upcoming = filterAndMapMovies(localMovies, MovieType.UPCOMING),
             trending = filterAndMapMovies(localMovies, MovieType.TRENDING),
@@ -83,6 +83,7 @@ class MovieRepositoryImpl(
         movies
     }
 
+    //TODO: These 3 methods could be refactored as to not repeat code
     private suspend fun getPopularMoviesRemotely() = resultOf {
         val results = api.getPopularMovies().results
         val movies = results.map { it.toDomain() }

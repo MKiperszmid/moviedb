@@ -1,8 +1,7 @@
 # TODO
 
 - Visualizar detalle de la película seleccionada  
-- Opción de ver trailer en el detalle (cómo visualizar el trailer queda a elección del candidato).  
-- La app debe poder funcionar offline (cache).  
+- Opción de ver trailer en el detalle (cómo visualizar el trailer queda a elección del candidato).  g
 - Transiciones/Animaciones.  
 - Uso de buenas prácticas y escalabilidad.  
 - Pruebas Unitarias.  
