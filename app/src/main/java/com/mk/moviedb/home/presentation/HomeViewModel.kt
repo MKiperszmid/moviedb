@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mk.moviedb.core.domain.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import javax.inject.Inject
@@ -49,12 +50,10 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getPopularMovies() {
-        repository.getPopularMovies().onSuccess {
+        repository.getPopularMovies().collect {
             state = state.copy(
                 popularMovies = it
             )
-        }.onFailure {
-            println()
         }
     }
 
@@ -71,13 +70,12 @@ class HomeViewModel @Inject constructor(
             FilterType.SPANISH -> repository.getMoviesByLanguage("es")
             FilterType.NINETY_THREE -> repository.getMoviesByYear(1993)
         }
-
-        result.onSuccess {
-            state = state.copy(
-                filteredMovies = it.subList(0, 6) // TODO: Export to a Use Case
-            )
-        }.onFailure {
-            println()
+        result.collect {
+            if (it.isNotEmpty()) {
+                state = state.copy(
+                    filteredMovies = it.subList(0, 6) // TODO: Export to a Use Case
+                )
+            }
         }
     }
 }

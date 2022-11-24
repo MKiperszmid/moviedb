@@ -16,9 +16,10 @@ class MovieRepositoryImpl(
     private val dao: MovieDao
 ) : MovieRepository {
 
+    // TODO: Migrate to returning only 1 MovieListItem with each type of movie for better scalability
+
     override fun getUpcomingMovies(): Flow<List<Movie>> {
         return flow {
-            // TODO: Return only 1 MovieListItem with each type of movie?
             val localMovies = dao.getMovies().filter { it.type == MovieType.UPCOMING }
             emit(localMovies.map { it.toDomain() })
             getUpcomingMoviesRemotely().onSuccess {
@@ -36,18 +37,60 @@ class MovieRepositoryImpl(
         movies
     }
 
-    override suspend fun getPopularMovies() = resultOf {
+    override fun getPopularMovies(): Flow<List<Movie>> {
+        return flow {
+            val localMovies = dao.getMovies().filter { it.type == MovieType.TRENDING }
+            emit(localMovies.map { it.toDomain() })
+            getPopularMoviesRemotely().onSuccess {
+                emit(it)
+            }.onFailure {
+                println()
+            }
+        }
+    }
+
+    private suspend fun getPopularMoviesRemotely() = resultOf {
         val results = api.getPopularMovies().results
-        results.map { it.toDomain() }
+        val movies = results.map { it.toDomain() }
+        movies.forEach { dao.insertMovie(it.toEntity(MovieType.TRENDING)) }
+        movies
     }
 
-    override suspend fun getMoviesByYear(year: Int) = resultOf {
+    override fun getMoviesByYear(year: Int): Flow<List<Movie>> {
+        return flow {
+            val localMovies = dao.getMovies().filter { it.type == MovieType.NINETY_THREE }
+            emit(localMovies.map { it.toDomain() })
+            getMoviesByYearRemotely(year).onSuccess {
+                emit(it)
+            }.onFailure {
+                println()
+            }
+        }
+    }
+
+    private suspend fun getMoviesByYearRemotely(year: Int) = resultOf {
         val results = api.getMoviesByYear(year).results
-        results.map { it.toDomain() }
+        val movies = results.map { it.toDomain() }
+        movies.forEach { dao.insertMovie(it.toEntity(MovieType.NINETY_THREE)) }
+        movies
     }
 
-    override suspend fun getMoviesByLanguage(language: String) = resultOf {
+    override fun getMoviesByLanguage(language: String): Flow<List<Movie>> {
+        return flow {
+            val localMovies = dao.getMovies().filter { it.type == MovieType.SPANISH }
+            emit(localMovies.map { it.toDomain() })
+            getMoviesByLanguageRemotely(language).onSuccess {
+                emit(it)
+            }.onFailure {
+                println()
+            }
+        }
+    }
+
+    private suspend fun getMoviesByLanguageRemotely(language: String) = resultOf {
         val results = api.getMoviesByLanguage(language).results
-        results.map { it.toDomain() }
+        val movies = results.map { it.toDomain() }
+        movies.forEach { dao.insertMovie(it.toEntity(MovieType.SPANISH)) }
+        movies
     }
 }
