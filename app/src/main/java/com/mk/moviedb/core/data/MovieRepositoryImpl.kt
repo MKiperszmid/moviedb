@@ -83,7 +83,7 @@ class MovieRepositoryImpl(
         movies
     }
 
-    //TODO: These 3 methods could be refactored as to not repeat code
+    // TODO: These 3 methods could be refactored as to not repeat code
     private suspend fun getPopularMoviesRemotely() = resultOf {
         val results = api.getPopularMovies().results
         val movies = results.map { it.toDomain() }
