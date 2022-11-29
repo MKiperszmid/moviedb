@@ -9,6 +9,7 @@ import com.mk.moviedb.core.data.remote.MovieApi
 import com.mk.moviedb.core.data.remote.extensions.resultOf
 import com.mk.moviedb.core.domain.model.FilterType
 import com.mk.moviedb.core.domain.model.Movie
+import com.mk.moviedb.core.domain.model.MovieDetail
 import com.mk.moviedb.core.domain.model.MovieList
 import com.mk.moviedb.core.domain.repository.MovieRepository
 import com.mk.moviedb.core.domain.usecase.ReduceFilteredMovies
@@ -57,6 +58,10 @@ class MovieRepositoryImpl(
                 println()
             }
         }
+    }
+
+    override suspend fun getMovieById(id: Int): Result<MovieDetail> = resultOf {
+        api.getMovieById(id).toDomain()
     }
 
     private suspend fun saveMoviesLocally(movies: List<Movie>, movieType: MovieType) {

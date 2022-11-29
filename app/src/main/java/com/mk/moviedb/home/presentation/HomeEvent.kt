@@ -4,5 +4,4 @@ import com.mk.moviedb.core.domain.model.FilterType
 
 sealed class HomeEvent {
     data class ChangeFilter(val filterType: FilterType) : HomeEvent()
-    data class OnMovieClick(val movieId: Int) : HomeEvent()
 }

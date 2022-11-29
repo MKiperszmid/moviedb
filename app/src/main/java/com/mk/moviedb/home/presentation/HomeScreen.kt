@@ -16,12 +16,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mk.moviedb.R
+import com.mk.moviedb.core.domain.model.Movie
 import com.mk.moviedb.home.presentation.components.*
 
 const val COLUMS_IN_GRID = 2
 
 @Composable
 fun HomeScreen(
+    onMovieClick: (Movie) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
@@ -43,8 +45,10 @@ fun HomeScreen(
             }) {
                 HomeMovieList(
                     stringResource(R.string.upcoming_releases),
-                    posters = state.upcomingMovies.map { it.poster }
-                )
+                    movies = state.upcomingMovies
+                ) {
+                    onMovieClick(it)
+                }
             }
         }
 
@@ -54,8 +58,10 @@ fun HomeScreen(
             }) {
                 HomeMovieList(
                     stringResource(R.string.popular_movies),
-                    posters = state.popularMovies.map { it.poster }
-                )
+                    movies = state.popularMovies
+                ) {
+                    onMovieClick(it)
+                }
             }
         }
         if (state.filteredMovies.isNotEmpty()) {
@@ -69,7 +75,9 @@ fun HomeScreen(
         }
 
         items(state.filteredMovies) {
-            HomeMoviePoster(it.poster, MoviePosterSize.BIG)
+            HomeMoviePoster(it.poster, MoviePosterSize.BIG) {
+                onMovieClick(it)
+            }
         }
     }
     if (state.isLoading) {

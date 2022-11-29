@@ -8,9 +8,12 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.mk.moviedb.detail.presentation.DetailScreen
 import com.mk.moviedb.home.presentation.HomeScreen
 import com.mk.moviedb.ui.theme.MovieDbTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +33,21 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = "HOME") {
                         composable("HOME") {
-                            HomeScreen()
+                            HomeScreen(onMovieClick = {
+                                navController.navigate("DETAIL/${it.id}")
+                            })
+                        }
+                        composable(
+                            "DETAIL/{movie_id}",
+                            arguments = listOf(
+                                navArgument("movie_id") {
+                                    type = NavType.IntType
+                                }
+                            )
+                        ) {
+                            DetailScreen(onBack = {
+                                navController.popBackStack()
+                            })
                         }
                     }
                 }

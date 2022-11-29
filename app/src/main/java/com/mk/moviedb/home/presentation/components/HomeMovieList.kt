@@ -6,12 +6,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mk.moviedb.core.domain.model.Movie
 
 @Composable
 fun HomeMovieList(
     title: String,
-    posters: List<String>,
-    modifier: Modifier = Modifier
+    movies: List<Movie>,
+    modifier: Modifier = Modifier,
+    onMovieClick: (Movie) -> Unit
 ) {
     Column(modifier = modifier) {
         CategoryTitle(title)
@@ -20,8 +22,10 @@ fun HomeMovieList(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(posters) {
-                HomeMoviePoster(it, MoviePosterSize.SMALL)
+            items(movies) {
+                HomeMoviePoster(it.poster, MoviePosterSize.SMALL) {
+                    onMovieClick(it)
+                }
             }
         }
     }
