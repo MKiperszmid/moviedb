@@ -22,7 +22,7 @@ El Repository se encarga de manejar los datos. No debería de encargarse de hace
 TODO
 
 ## Correr la App
-1- Clonar el repo
-2- Crear una API KEY en TMDB: https://www.themoviedb.org/settings/api
-3- Agregar la API KEY en local.properties como: API_KEY=1234567890
-4- Correr la app
+1. Clonar el repo
+2. Crear una API KEY en TMDB: https://www.themoviedb.org/settings/api
+3. Agregar la API KEY en local.properties como: API_KEY=1234567890
+4. Correr la app
