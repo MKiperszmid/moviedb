@@ -1,20 +1,25 @@
 package com.mk.moviedb.detail.presentation
 
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -51,10 +56,20 @@ fun DetailScreen(
                         )
                     )
             )
+            var offsetY by remember { mutableStateOf(100f) }
             DetailMovieInformation(
                 movie = state.movie,
-                modifier = Modifier.align(Alignment.BottomCenter)
+                modifier = Modifier.align(Alignment.BottomCenter).offset(y = offsetY.dp)
+                    .pointerInput(Unit) {
+                        detectDragGestures { change, dragAmount ->
+                            change.consume()
+                            Log.d("El Detail", "Offset: $offsetY")
+                            offsetY = (offsetY + (dragAmount.y / 2))
+                                .coerceIn(-300f, 100f)
+                        }
+                    }
             )
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()

@@ -16,7 +16,10 @@ import androidx.compose.ui.unit.sp
 import com.mk.moviedb.core.domain.model.MovieDetail
 
 @Composable
-fun DetailMovieInformation(movie: MovieDetail, modifier: Modifier = Modifier) {
+fun DetailMovieInformation(
+    movie: MovieDetail,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
         verticalArrangement = Arrangement.SpaceEvenly,
