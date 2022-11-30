@@ -1,11 +1,6 @@
 # TODO
-
-- Visualizar detalle de la película seleccionada  
-- Opción de ver trailer en el detalle (cómo visualizar el trailer queda a elección del candidato).  g
-- Transiciones/Animaciones.  
-- Uso de buenas prácticas y escalabilidad.  
-- Pruebas Unitarias.  
-- Arreglar la SplashScreen
+- Opción de ver trailer en el detalle (cómo visualizar el trailer queda a elección del candidato).
+- Pruebas Unitarias.
 
 ## Preguntas
 
@@ -19,7 +14,8 @@ El Repository se encarga de manejar los datos. No debería de encargarse de hace
 2- Respetar SOLID (Tampoco hay que volverse locos y hacerlo al 100%. Pero con aplicar algunas de las leyes, es más que suficiente)
 
 #### 3. Detalla cómo harías todo aquello que no hayas llegado a completar. 
-TODO
+- Investigar más a fondo el tema de Drags para el detalle de la película
+- Arreglar la SplashScreen
 
 ## Correr la App
 1. Clonar el repo
