@@ -1,6 +1,5 @@
 package com.mk.moviedb.detail.presentation
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
@@ -63,7 +62,6 @@ fun DetailScreen(
                     .pointerInput(Unit) {
                         detectDragGestures { change, dragAmount ->
                             change.consume()
-                            Log.d("El Detail", "Offset: $offsetY")
                             offsetY = (offsetY + (dragAmount.y / 2))
                                 .coerceIn(-300f, 100f)
                         }
