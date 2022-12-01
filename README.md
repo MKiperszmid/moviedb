@@ -1,6 +1,3 @@
-# TODO
-- Pruebas Unitarias.
-
 ## Preguntas
 
 #### 1. ¿En qué consiste el principio de responsabilidad única? ¿Cuál es su propósito?:
@@ -13,9 +10,10 @@ El Repository se encarga de manejar los datos. No debería de encargarse de hace
 2- Respetar SOLID (Tampoco hay que volverse locos y hacerlo al 100%. Pero con aplicar algunas de las leyes, es más que suficiente)
 
 #### 3. Detalla cómo harías todo aquello que no hayas llegado a completar. 
-- Investigar más a fondo el tema de Drags para el detalle de la película
-- Arreglar la SplashScreen
+- Investigar más a fondo el tema de Drags para el detalle de la película (https://blog.canopas.com/explore-compose-motionlayout-773a3462d787)
+- Arreglar la SplashScreen. No hay que usar la api de splashscreen de Android 12. Hay que usar la forma vieja ya que la nueva no acepta gradients + icono
 - Ver trailer usando ExoPlayer
+- Unit Test de Repository, y testear estados del viewmodel en caso de que la api o db devuelvan vacio
 
 ## Correr la App
 1. Clonar el repo
