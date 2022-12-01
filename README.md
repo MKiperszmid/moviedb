@@ -1,5 +1,4 @@
 # TODO
-- Opción de ver trailer en el detalle (cómo visualizar el trailer queda a elección del candidato).
 - Pruebas Unitarias.
 
 ## Preguntas
@@ -16,6 +15,7 @@ El Repository se encarga de manejar los datos. No debería de encargarse de hace
 #### 3. Detalla cómo harías todo aquello que no hayas llegado a completar. 
 - Investigar más a fondo el tema de Drags para el detalle de la película
 - Arreglar la SplashScreen
+- Ver trailer usando ExoPlayer
 
 ## Correr la App
 1. Clonar el repo
